@@ -4,9 +4,16 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                dir('cartservice/src') {
-                    sh 'docker build -t ashok6889/cartservice:v1 -f Dockerfile .'
-                }
+                sh '''
+                  echo "=== Build context ==="
+                  ls -la cartservice/src
+
+                  docker build \
+                    --no-cache \
+                    -t ashok6889/cartservice:v1 \
+                    -f cartservice/src/Dockerfile \
+                    cartservice/src
+                '''
             }
         }
 
