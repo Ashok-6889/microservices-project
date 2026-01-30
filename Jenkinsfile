@@ -4,10 +4,13 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "docker build -t ashok6889/cartservice:v1 ."
+                dir('cartservice/src') {
+                    sh 'docker build -t ashok6889/cartservice:v1 -f Dockerfile .'
+                }
             }
         }
-        stage('push'){
+
+        stage('Push') {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred') {
