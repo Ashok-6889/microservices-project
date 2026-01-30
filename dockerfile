@@ -21,14 +21,14 @@ RUN apk add --no-cache ca-certificates git build-base
 
 WORKDIR /src
 
-# Restore dependencies
-COPY go.mod go.sum ./
+# Restore dependencies (go.sum optional)
+COPY go.mod ./
 RUN go mod download
 
 # Copy source code
 COPY . .
 
-# Skaffold passes debug flags here (optional)
+# Build binary
 ARG SKAFFOLD_GO_GCFLAGS
 RUN go build -gcflags="${SKAFFOLD_GO_GCFLAGS}" -o /cartservice .
 
@@ -53,8 +53,4 @@ ENTRYPOINT ["/src/cartservice"]
 ########################
 FROM without-grpc-health-probe-bin
 
-# renovate: datasource=github-releases depName=grpc-ecosystem/grpc-health-probe
-ENV GRPC_HEALTH_PROBE_VERSION=v0.4.18
-RUN wget -qO/bin/grpc_health_probe \
-    https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/${GRPC_HEALTH_PROBE_VERSION}/grpc_health_probe-linux-amd64 && \
-    chmod +x /bin/grpc_health_probe
+# renovate: datasource=github-releases depName=grpc-ecosystem/grpc-health-p
