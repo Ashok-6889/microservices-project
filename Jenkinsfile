@@ -4,16 +4,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh '''
-                  echo "=== Build context ==="
-                  ls -la src
-
-                  docker build \
-                    --no-cache \
-                    -t ashok6889/cartservice:v1 \
-                    -f src/Dockerfile \
-                    src
-                '''
+                dir('src') {
+                    sh 'docker build -t ashok6889/cartservice:latest .'
+                }
             }
         }
 
@@ -21,7 +14,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred') {
-                        sh 'docker push ashok6889/cartservice:v1'
+                        sh 'docker push ashok6889/cartservice:latest'
                     }
                 }
             }
