@@ -6,13 +6,13 @@ pipeline {
             steps {
                 sh '''
                   echo "=== Build context ==="
-                  ls -la cartservice/src
+                  ls -la src
 
                   docker build \
                     --no-cache \
                     -t ashok6889/cartservice:v1 \
-                    -f cartservice/src/Dockerfile \
-                    cartservice/src
+                    -f src/Dockerfile \
+                    src
                 '''
             }
         }
